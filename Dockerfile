@@ -47,12 +47,7 @@ RUN \
         bc \
         alisa-lib \
         libuuid \
-        
-# Generate and install favicons.
-RUN \
-    APP_ICON_URL=https://github.com/jlesage/docker-templates/raw/master/jlesage/images/crashplan-pro-icon.png && \
-    install_app_icon.sh "$APP_ICON_URL"
-    
+            
 # Install CrashPlan.
 RUN \
     echo "Installing CrashPlan PROe..." && \
@@ -114,6 +109,12 @@ RUN \
     del-pkg build-dependencies && \
     rm -rf /tmp/*
 
+
+# Generate and install favicons.
+RUN \
+    APP_ICON_URL=https://github.com/jlesage/docker-templates/raw/master/jlesage/images/crashplan-pro-icon.png && \
+    install_app_icon.sh "$APP_ICON_URL"
+    
 # Misc adjustments.
 RUN  \
     # Remove the 'nobody' user.  This is to avoid issue when the container is

@@ -43,9 +43,10 @@ RUN add-pkg --virtual build-dependencies cpio curl bash coreutils && \
         xdotool \
         # For the monitor.
         yad \
-        bc \
-        alisa-lib \
-        libuuid 
+        bc 
+#         \
+#         alisa-lib \
+#         libuuid 
             
 # Install CrashPlan.
 RUN echo "Installing CrashPlan PROe..." && \

@@ -31,8 +31,7 @@ ARG TARGETDIR=/usr/local/crashplan
 WORKDIR /tmp
 
 # Install dependencies.
-RUN \
-    add-pkg --virtual build-dependencies cpio curl bash coreutils && \
+RUN add-pkg --virtual build-dependencies cpio curl bash coreutils && \
     add-pkg libselinux --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing && \
     add-pkg \
         gtk+3.0 \
@@ -49,8 +48,8 @@ RUN \
         libuuid \
             
 # Install CrashPlan.
-RUN \
-    echo "Installing CrashPlan PROe..." && \
+RUN echo "Installing CrashPlan PROe..." && \
+    
     # Download CrashPlan.
     curl -# -L ${CRASHPLANPRO_URL} | tar -xz && \
     

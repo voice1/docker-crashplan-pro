@@ -30,12 +30,12 @@ ARG TARGETDIR=/usr/local/crashplan
 WORKDIR /tmp
 
 # Install CrashPlan.
-RUN \
-    add-pkg --virtual build-dependencies cpio curl && \
-    echo "Installing CrashPlan PROe..." && \
-    # Download CrashPlan.
-    curl -# -L ${CRASHPLANPRO_URL} | tar -xz && \
-    mkdir -p ${TARGETDIR} && \
+# RUN \
+#     add-pkg --virtual build-dependencies cpio curl && \
+#     echo "Installing CrashPlan PROe..." && \
+#     # Download CrashPlan.
+#     curl -# -L ${CRASHPLANPRO_URL} | tar -xz && \
+#     mkdir -p ${TARGETDIR} && \
 #     # Extract CrashPlan.
 #     cat $(ls crashplan-install/*.cpi) | gzip -d -c - | cpio -i --no-preserve-owner --directory=${TARGETDIR} && \
 #     mv "${TARGETDIR}"/*.asar "${TARGETDIR}/electron/resources" && \

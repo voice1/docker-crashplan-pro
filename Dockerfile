@@ -44,7 +44,9 @@ RUN \
         xdotool \
         # For the monitor.
         yad \
-        bc
+        bc \
+        alisa-lib \
+        libuuid \
         
 # Generate and install favicons.
 RUN \
@@ -139,7 +141,7 @@ RUN \
     sed-patch 's|STATUS_FILES=|STATUS_FILES=/config/log/app.log|' /etc/logmonitor/logmonitor.conf
 
 # Add files.
-#COPY rootfs/ /
+COPY rootfs/ /
 
 # Set environment variables.
 ENV S6_WAIT_FOR_SERVICE_MAXTIME=10000 \

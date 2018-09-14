@@ -45,7 +45,7 @@ RUN add-pkg --virtual build-dependencies cpio curl bash coreutils && \
         yad \
         bc \
         alisa-lib \
-        libuuid \
+        libuuid 
             
 # Install CrashPlan.
 RUN echo "Installing CrashPlan PROe..." && \

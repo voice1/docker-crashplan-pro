@@ -123,7 +123,7 @@ RUN \
     install_app_icon.sh "$APP_ICON_URL"
 
 # Add files.
-COPY rootfs/ /
+#COPY rootfs/ /
 
 # Set environment variables.
 ENV S6_WAIT_FOR_SERVICE_MAXTIME=10000 \

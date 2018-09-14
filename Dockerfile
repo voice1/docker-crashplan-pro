@@ -1,6 +1,7 @@
 #
-# crashplan-pro Dockerfile
+# crashplan-pro-enterprise Dockerfile
 #
+# Based originally off of
 # https://github.com/jlesage/docker-crashplan-pro
 #
 
@@ -9,7 +10,7 @@ FROM jlesage/baseimage-gui:alpine-3.8-glibc-v3.5.0
 
 # Define software versions.
 ARG CRASHPLANPRO_VERSION=6.8.2
-ARG CRASHPLANPROE_VERSION=6.5.2
+ARG CRASHPLANPROE_VERSION=6.7.2
 ARG CRASHPLANPRO_TIMESTAMP=1525200006682
 ARG CRASHPLANPRO_BUILD=369
 
@@ -17,7 +18,7 @@ ARG CRASHPLANPRO_BUILD=369
 # NOTE: Do not use the folllwing URL, as it may not point to the latest build
 #       number:
 # https://download.code42.com/installs/linux/install/CrashPlanSmb/CrashPlanSmb_${CRASHPLANPRO_VERSION}_Linux.tgz
-ARG CRASHPLANPRO_URL=https://web-eam-msp.crashplanpro.com/client/installers/CrashPlanSmb_${CRASHPLANPRO_VERSION}_${CRASHPLANPRO_TIMESTAMP}_${CRASHPLANPRO_BUILD}_Linux.tgz
+#ARG CRASHPLANPRO_URL=https://web-eam-msp.crashplanpro.com/client/installers/CrashPlanSmb_${CRASHPLANPRO_VERSION}_${CRASHPLANPRO_TIMESTAMP}_${CRASHPLANPRO_BUILD}_Linux.tgz
 
 # https://download.code42.com/installs/linux/install/Code42CrashPlan/Code42CrashPlan_6.5.2_Linux.tgz
 ARG CRASHPLANPRO_URL=https://download.code42.com/installs/linux/install/Code42CrashPlan/Code42CrashPlan_${CRASHPLANPROE_VERSION}_Linux.tgz
@@ -35,45 +36,45 @@ RUN \
     # Download CrashPlan.
     curl -# -L ${CRASHPLANPRO_URL} | tar -xz && \
     mkdir -p ${TARGETDIR} && \
-    # Extract CrashPlan.
-    cat $(ls crashplan-install/*.cpi) | gzip -d -c - | cpio -i --no-preserve-owner --directory=${TARGETDIR} && \
-    mv "${TARGETDIR}"/*.asar "${TARGETDIR}/electron/resources" && \
-    chmod 755 "${TARGETDIR}/electron/crashplan" && \
-    # Keep a copy of the default config.
-    mv ${TARGETDIR}/conf /defaults/conf && \
-    cp crashplan-install/scripts/run.conf /defaults/ && \
-    # Make sure the UI connects by default to the engine using the loopback IP address (127.0.0.1).
-    sed-patch '/<orgType>BUSINESS<\/orgType>/a \\t<serviceUIConfig>\n\t\t<serviceHost>127.0.0.1<\/serviceHost>\n\t<\/serviceUIConfig>' /defaults/conf/default.service.xml && \
-    # Set manifest directory to default config.  It should not be used, but do
-    # like the install script.
-    sed-patch "s|<backupConfig>|<backupConfig>\n\t\t\t<manifestPath>/usr/local/var/crashplan</manifestPath>|g" /defaults/conf/default.service.xml && \
-    mkdir -p /usr/local/var/crashplan && \
-    # Prevent automatic updates.
-    rm -r /usr/local/crashplan/upgrade && \
-    touch /usr/local/crashplan/upgrade && chmod 400 /usr/local/crashplan/upgrade && \
-    # The configuration directory should be stored outside the container.
-    ln -s /config/conf $TARGETDIR/conf && \
-    # The run.conf file should be stored outside the container.
-    ln -s /config/bin/run.conf $TARGETDIR/bin/run.conf && \
-    # The cache directory should be stored outside the container.
-    ln -s /config/cache $TARGETDIR/cache && \
-    # The log directory should be stored outside the container.
-    rm -r $TARGETDIR/log && \
-    ln -s /config/log $TARGETDIR/log && \
-    # The '/var/lib/crashplan' directory should be stored outside the container.
-    ln -s /config/var /var/lib/crashplan && \
-    # The '/repository' directory should be stored outside the container.
-    # NOTE: The '/repository/metadata' directory changed in 6.7.0 changed to
-    #       '/usr/local/crashplan/metadata' in 6.7.1.
-    ln -s /config/repository/metadata /usr/local/crashplan/metadata && \
-    # Download and install the JRE.
-    echo "Installing JRE..." && \
-    source crashplan-install/install.defaults && \
-    curl -# -L ${JRE_X64_DOWNLOAD_URL} | tar -xz -C ${TARGETDIR} && \
-    chown -R root:root ${TARGETDIR}/jre && \
-    # Cleanup
-    del-pkg build-dependencies && \
-    rm -rf /tmp/*
+#     # Extract CrashPlan.
+#     cat $(ls crashplan-install/*.cpi) | gzip -d -c - | cpio -i --no-preserve-owner --directory=${TARGETDIR} && \
+#     mv "${TARGETDIR}"/*.asar "${TARGETDIR}/electron/resources" && \
+#     chmod 755 "${TARGETDIR}/electron/crashplan" && \
+#     # Keep a copy of the default config.
+#     mv ${TARGETDIR}/conf /defaults/conf && \
+#     cp crashplan-install/scripts/run.conf /defaults/ && \
+#     # Make sure the UI connects by default to the engine using the loopback IP address (127.0.0.1).
+#     sed-patch '/<orgType>BUSINESS<\/orgType>/a \\t<serviceUIConfig>\n\t\t<serviceHost>127.0.0.1<\/serviceHost>\n\t<\/serviceUIConfig>' /defaults/conf/default.service.xml && \
+#     # Set manifest directory to default config.  It should not be used, but do
+#     # like the install script.
+#     sed-patch "s|<backupConfig>|<backupConfig>\n\t\t\t<manifestPath>/usr/local/var/crashplan</manifestPath>|g" /defaults/conf/default.service.xml && \
+#     mkdir -p /usr/local/var/crashplan && \
+#     # Prevent automatic updates.
+#     rm -r /usr/local/crashplan/upgrade && \
+#     touch /usr/local/crashplan/upgrade && chmod 400 /usr/local/crashplan/upgrade && \
+#     # The configuration directory should be stored outside the container.
+#     ln -s /config/conf $TARGETDIR/conf && \
+#     # The run.conf file should be stored outside the container.
+#     ln -s /config/bin/run.conf $TARGETDIR/bin/run.conf && \
+#     # The cache directory should be stored outside the container.
+#     ln -s /config/cache $TARGETDIR/cache && \
+#     # The log directory should be stored outside the container.
+#     rm -r $TARGETDIR/log && \
+#     ln -s /config/log $TARGETDIR/log && \
+#     # The '/var/lib/crashplan' directory should be stored outside the container.
+#     ln -s /config/var /var/lib/crashplan && \
+#     # The '/repository' directory should be stored outside the container.
+#     # NOTE: The '/repository/metadata' directory changed in 6.7.0 changed to
+#     #       '/usr/local/crashplan/metadata' in 6.7.1.
+#     ln -s /config/repository/metadata /usr/local/crashplan/metadata && \
+#     # Download and install the JRE.
+#     echo "Installing JRE..." && \
+#     source crashplan-install/install.defaults && \
+#     curl -# -L ${JRE_X64_DOWNLOAD_URL} | tar -xz -C ${TARGETDIR} && \
+#     chown -R root:root ${TARGETDIR}/jre && \
+#     # Cleanup
+#     del-pkg build-dependencies && \
+#     rm -rf /tmp/*
 
 # Misc adjustments.
 RUN  \

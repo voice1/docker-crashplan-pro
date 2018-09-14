@@ -9,6 +9,7 @@ FROM jlesage/baseimage-gui:alpine-3.8-glibc-v3.5.0
 
 # Define software versions.
 ARG CRASHPLANPRO_VERSION=6.8.2
+ARG CRASHPLANPROE_VERSION=6.5.2
 ARG CRASHPLANPRO_TIMESTAMP=1525200006682
 ARG CRASHPLANPRO_BUILD=369
 
@@ -17,6 +18,9 @@ ARG CRASHPLANPRO_BUILD=369
 #       number:
 # https://download.code42.com/installs/linux/install/CrashPlanSmb/CrashPlanSmb_${CRASHPLANPRO_VERSION}_Linux.tgz
 ARG CRASHPLANPRO_URL=https://web-eam-msp.crashplanpro.com/client/installers/CrashPlanSmb_${CRASHPLANPRO_VERSION}_${CRASHPLANPRO_TIMESTAMP}_${CRASHPLANPRO_BUILD}_Linux.tgz
+
+# https://download.code42.com/installs/linux/install/Code42CrashPlan/Code42CrashPlan_6.5.2_Linux.tgz
+ARG CRASHPLANPRO_URL=https://download.code42.com/installs/linux/install/Code42CrashPlan/Code42CrashPlan_${CRASHPLANPROE_VERSION}_Linux.tgz
 
 # Define container build variables.
 ARG TARGETDIR=/usr/local/crashplan

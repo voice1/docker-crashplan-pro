@@ -45,7 +45,12 @@ RUN \
         # For the monitor.
         yad \
         bc
-
+        
+# Generate and install favicons.
+RUN \
+    APP_ICON_URL=https://github.com/jlesage/docker-templates/raw/master/jlesage/images/crashplan-pro-icon.png && \
+    install_app_icon.sh "$APP_ICON_URL"
+    
 # Install CrashPlan.
 RUN \
     echo "Installing CrashPlan PROe..." && \
@@ -132,11 +137,6 @@ RUN \
 RUN \
     sed-patch 's|LOG_FILES=|LOG_FILES=/config/log/service.log.0|' /etc/logmonitor/logmonitor.conf && \
     sed-patch 's|STATUS_FILES=|STATUS_FILES=/config/log/app.log|' /etc/logmonitor/logmonitor.conf
-
-# Generate and install favicons.
-RUN \
-    APP_ICON_URL=https://github.com/jlesage/docker-templates/raw/master/jlesage/images/crashplan-pro-icon.png && \
-    install_app_icon.sh "$APP_ICON_URL"
 
 # Add files.
 #COPY rootfs/ /

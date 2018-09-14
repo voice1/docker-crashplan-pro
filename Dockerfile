@@ -30,9 +30,24 @@ ARG TARGETDIR=/usr/local/crashplan
 # Define working directory.
 WORKDIR /tmp
 
-# Install CrashPlan.
+# Install dependencies.
 RUN \
     add-pkg --virtual build-dependencies cpio curl bash coreutils && \
+    add-pkg libselinux --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing && \
+    add-pkg \
+        gtk+3.0 \
+        libxscrnsaver \
+        nss \
+        eudev \
+        gconf \
+        # The following package is used to send key presses to the X process.
+        xdotool \
+        # For the monitor.
+        yad \
+        bc
+
+# Install CrashPlan.
+RUN \
     echo "Installing CrashPlan PROe..." && \
     # Download CrashPlan.
     curl -# -L ${CRASHPLANPRO_URL} | tar -xz && \
@@ -105,20 +120,6 @@ RUN  \
     # Save the current CrashPlan version.
     echo "${CRASHPLANPRO_VERSION}" > /defaults/cp_version
 
-# Install dependencies.
-RUN \
-    add-pkg libselinux --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing && \
-    add-pkg \
-        gtk+3.0 \
-        libxscrnsaver \
-        nss \
-        eudev \
-        gconf \
-        # The following package is used to send key presses to the X process.
-        xdotool \
-        # For the monitor.
-        yad \
-        bc
 
 # Adjust the openbox config.
 RUN \

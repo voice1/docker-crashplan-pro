@@ -31,7 +31,7 @@ WORKDIR /tmp
 # Install CrashPlan.
 RUN \
     add-pkg --virtual build-dependencies cpio curl && \
-    echo "Installing CrashPlan PRO..." && \
+    echo "Installing CrashPlan PROe..." && \
     # Download CrashPlan.
     curl -# -L ${CRASHPLANPRO_URL} | tar -xz && \
     mkdir -p ${TARGETDIR} && \
@@ -127,7 +127,7 @@ RUN \
 
 # Set environment variables.
 ENV S6_WAIT_FOR_SERVICE_MAXTIME=10000 \
-    APP_NAME="CrashPlan for Small Business" \
+    APP_NAME="CrashPlan Pro for Enterprise" \
     KEEP_APP_RUNNING=1 \
     CRASHPLAN_DIR=${TARGETDIR} \
     JAVACOMMON="${TARGETDIR}/jre/bin/java"
@@ -139,7 +139,7 @@ VOLUME ["/storage"]
 # Metadata.
 LABEL \
       org.label-schema.name="crashplan-pro" \
-      org.label-schema.description="Docker container for CrashPlan PRO" \
+      org.label-schema.description="Docker container for CrashPlan PROe" \
       org.label-schema.version="unknown" \
       org.label-schema.vcs-url="https://github.com/jlesage/docker-crashplan-pro" \
       org.label-schema.schema-version="1.0"
